@@ -28,3 +28,12 @@
   content: "";
   padding: 0;
 }
+
+.row {
+  margin-top: 100px;
+}
+
+.radio {
+  display: inline-block;
+  margin: 5px;
+}
