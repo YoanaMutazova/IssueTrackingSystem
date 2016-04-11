@@ -1,4 +1,6 @@
-angular.module('issueTracker.home', [])
+angular.module('issueTracker.home', [
+        'issueTracker.users.authentication'
+    ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/', {
             templateUrl: 'app/home/home.html',
@@ -7,12 +9,13 @@ angular.module('issueTracker.home', [])
     }])
     .controller('HomeController', [
         '$scope',
-        function ($scope) {
+        'authentication',
+        function ($scope, authentication) {
             $scope.login = function (user) {
-                console.log(user);
+                authentication.login(user);
             };
 
             $scope.register = function (user) {
-                console.log(user);
+                authentication.register(user);
             };
         }]);
