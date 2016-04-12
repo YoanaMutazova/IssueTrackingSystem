@@ -16,15 +16,27 @@ angular.module('issueTracker.users.authentication', [])
                 return deferred.promise;
             }
 
-            function login(user) {
+            function getUserToken(user) {
                 var deferred = $q.defer();
 
-                $http.post(BASE_URL + 'users/Login', user)
-                    .then(function (success) {
-                        deferred.resolve(success.data);
-                    }, function (error) {
+                var userInfo = {
+                    username: user.email,
+                    password: user.password,
+                    grant_type: "password"
+                };
 
-                    });
+                $http({
+                    method: 'POST',
+                    url: BASE_URL + 'api/Token',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: JSON.stringify(userInfo)
+                })
+                .then(function (success) {
+                    console.log(success);
+                }, function (error) {
+                    console.log(error);
+                });
+
                 return deferred.promise;
             }
 
@@ -36,7 +48,7 @@ angular.module('issueTracker.users.authentication', [])
 
             return {
                 register: register,
-                login: login,
+                getUserToken: getUserToken,
                 logout: logout
             }
     }]);
