@@ -1,4 +1,4 @@
-angular.module('issueTracker.users.authentication', [])
+angular.module('issueTracker.services.authentication', [])
     .factory('authentication', [
         '$http',
         '$q',
@@ -11,30 +11,27 @@ angular.module('issueTracker.users.authentication', [])
                     .then(function (success) {
                         deferred.resolve(success.data);
                     }, function (error) {
-
+                        console.log(error);
                     });
+
                 return deferred.promise;
             }
 
             function getUserToken(user) {
                 var deferred = $q.defer();
 
-                var userInfo = {
-                    username: user.email,
-                    password: user.password,
-                    grant_type: "password"
-                };
+                var userInfo = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
 
                 $http({
                     method: 'POST',
                     url: BASE_URL + 'api/Token',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    data: JSON.stringify(userInfo)
+                    data: userInfo
                 })
                 .then(function (success) {
-                    console.log(success);
+                    deferred.resolve(success.data['access_token']);
                 }, function (error) {
-                    console.log(error);
+                    deferred.reject(error);
                 });
 
                 return deferred.promise;
