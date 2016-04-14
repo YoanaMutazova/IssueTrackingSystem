@@ -12,22 +12,45 @@ angular.module('issueTracker.controllers.home', [
         '$scope',
         'authentication',
         '$cookies',
-        function ($scope, authentication, $cookies) {
+        'notifications',
+        function ($scope, authentication, $cookies, notifications) {
+            var token = $cookies.get('access_token');
+
+            if (!token) {
+                $scope.template = 'app/views/user.html';
+            } else {
+                $scope.template = 'app/views/dashboard.html';
+            }
+
             $scope.login = function (user) {
-                authentication.getUserToken(user).then(function (success) {
-                    $cookies.put('access_token', success);
-                    console.log(success);
-                }, function (error) {
-                    console.log('invalid username or password');
-                });
+                authentication.login(user)
+                    .then(function (success) {
+                        $cookies.put('access_token', success);
+                        $scope.template = 'app/views/dashboard.html';
+                        notifications.showSuccess({message: 'Your logged in successfully'});
+                        }, function (error) {
+                            console.log('invalid username or password');
+                    });
             };
 
             $scope.register = function (user) {
                 authentication.register(user);
-                authentication.getUserToken(user).then(function (success) {
-                    $cookies.put('access_token', success);
-                }, function (error) {
-                    console.log(error);
-                });
+                authentication.login(user)
+                    .then(function (success) {
+                        $cookies.put('access_token', success);
+                        $scope.template = 'app/views/dashboard.html';
+                    }, function (error) {
+                        console.log(error);
+                    });
+            };
+
+            $scope.logout = function() {
+                authentication.logout()
+                    .then(function (success) {
+                        $cookies.remove('access_token');
+                        $scope.template = 'app/views/user.html';
+                    }, function (error) {
+                        console.log(error);
+                    });
             };
         }]);
