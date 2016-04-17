@@ -37,3 +37,14 @@
   display: inline-block;
   margin: 5px;
 }
+
+.bg-info {
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 12pt;
+}
+
+strong {
+  margin: 10px;
+  font-size: 14pt;
+}

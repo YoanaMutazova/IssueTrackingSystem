@@ -26,7 +26,7 @@ angular.module('issueTracker.services.projects', [
                 return deferred.promise;
             }
 
-            function getProjectBy(id) {
+            function getProjectById(id) {
                 var deferred = $q.defer();
 
                 var token = $cookies.get('access_token');
@@ -47,7 +47,7 @@ angular.module('issueTracker.services.projects', [
 
             return {
                 getAllProjects: getAllProjects,
-                getProjectBy: getProjectBy
+                getProjectById: getProjectById
             }
         }
     ]);

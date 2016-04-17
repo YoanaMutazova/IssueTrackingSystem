@@ -1,1 +1,8 @@
-<button ng-click="showProjects()">All projects</button>
+<button class="btn btn-success">Dashboard</button>
+<button class="btn btn-success">Projects</button>
+
+    <p class="bg-info">Projects</p>
+    <div ng-repeat="project in projects">
+        <strong>{{project.Name}}</strong>
+        <button class="btn btn-info" id="{{project.Id}}" ng-click="projectsById(id)">View</button>
+    </div>
