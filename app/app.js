@@ -3,7 +3,8 @@
 angular.module('issueTracker', [
   'ngRoute',
     'issueTracker.controllers.home',
-    'issueTracker.controllers.projects'
+    'issueTracker.controllers.projects',
+    'issueTracker.controllers.users'
 ])
     .config(['$routeProvider', function($routeProvider) {
       $routeProvider.otherwise({redirectTo: '/'});

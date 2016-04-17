@@ -12,8 +12,7 @@ angular.module('issueTracker.controllers.home', [
         '$scope',
         'authentication',
         '$cookies',
-        'notifications',
-        function ($scope, authentication, $cookies, notifications) {
+        function ($scope, authentication, $cookies) {
             var token = $cookies.get('access_token');
 
             if (!token) {
@@ -27,7 +26,6 @@ angular.module('issueTracker.controllers.home', [
                     .then(function (success) {
                         $cookies.put('access_token', success);
                         $scope.template = 'app/views/dashboard.html';
-                        notifications.showSuccess({message: 'Your logged in successfully'});
                         }, function (error) {
                             console.log('invalid username or password');
                     });

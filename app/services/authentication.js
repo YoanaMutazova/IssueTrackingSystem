@@ -1,9 +1,10 @@
-angular.module('issueTracker.services.authentication', [])
+angular.module('issueTracker.services.authentication', ['ngCookies'])
     .factory('authentication', [
         '$http',
         '$q',
+        '$cookies',
         'BASE_URL',
-        function ($http, $q, BASE_URL) {
+        function ($http, $q,$cookies, BASE_URL) {
             function register(user) {
                 var deferred = $q.defer();
 
@@ -17,7 +18,7 @@ angular.module('issueTracker.services.authentication', [])
                 return deferred.promise;
             }
 
-            function getUserToken(user) {
+            function login(user) {
                 var deferred = $q.defer();
 
                 var userInfo = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
@@ -40,12 +41,25 @@ angular.module('issueTracker.services.authentication', [])
             function logout() {
                 var deferred = $q.defer();
 
+                var token = $cookies.get('access_token');
+
+                $http({
+                    url: BASE_URL + 'api/Account/Logout',
+                    method: 'POST',
+                    headers: {'Authorization': 'Bearer ' + token}
+                })
+                    .then(function (success) {
+                        deferred.resolve(success);
+                    }, function (error) {
+                        console.log(error);
+                    });
+
                 return deferred.promise;
             }
 
             return {
                 register: register,
-                getUserToken: getUserToken,
+                login: login,
                 logout: logout
             }
     }]);
