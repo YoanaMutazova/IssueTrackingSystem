@@ -5,24 +5,30 @@ angular.module('issueTracker.controllers.projects', [
             $routeProvider.when('/projects', {
                 templateUrl: 'app/views/projects.html',
                 controller: 'ProjectsController'
-            })
+            });
+
+            $routeProvider.when('/projects/:projectId', {
+                templateUrl: 'app/views/project.html',
+                controller: 'ProjectsController'
+            });
         }
     ])
     .controller('ProjectsController', [
         '$scope',
         'projects',
-        function ($scope, projects) {
+        '$routeParams',
+        function ($scope, projects, $routeParams) {
             projects.getAllProjects()
                 .then(function (success) {
                     $scope.projects = success;
                 }, function (error) {
                     console.log(error);
                 });
-            
-            $scope.projectsById = function (id) {
-                projects.getProjectById(id)
+
+            $scope.projectById = function() {
+                projects.getProjectById($routeParams.projectId)
                     .then(function (success) {
-                        console.log(success.data);
+                        $scope.projectInfo = success;
                     }, function (error) {
                         console.log(error);
                     });

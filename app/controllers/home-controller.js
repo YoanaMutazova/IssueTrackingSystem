@@ -12,7 +12,8 @@ angular.module('issueTracker.controllers.home', [
         '$scope',
         'authentication',
         '$cookies',
-        function ($scope, authentication, $cookies) {
+        '$location',
+        function ($scope, authentication, $cookies, $location) {
             var token = $cookies.get('access_token');
 
             if (!token) {
