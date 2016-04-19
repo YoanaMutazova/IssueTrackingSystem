@@ -15,11 +15,15 @@
   <link rel="stylesheet" href="app/app.css">
   <script src="app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body>
+<body ng-controller="MainController">
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+  <div ng-if="isAuthenticated">
+    <button class="btn btn-success"><a href="#/dashboard">Dashboard</a></button>
+    <button class="btn btn-success"><a href="#/projects">Projects</a></button>
+  </div>
   <div ng-view></div>
 
   <!-- In production use:
@@ -31,11 +35,13 @@
   <script src="app/bower_components/angular-route/angular-route.js"></script>
   <script src="app/bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="app/app.js"></script>
+  <script src="app/controllers/main-controller.js"></script>
   <script src="app/controllers/home-controller.js"></script>
   <script src="app/services/authentication.js"></script>
   <script src="app/controllers/projects-controller.js"></script>
   <script src="app/services/projects.js"></script>
   <script src="app/controllers/users-controller.js"></script>
   <script src="app/services/users.js"></script>
+  <script src="app/controllers/profile-controller.js"></script>
 </body>
 </html>
