@@ -18,17 +18,25 @@ angular.module('issueTracker.controllers.projects', [
         'projects',
         '$routeParams',
         function ($scope, projects, $routeParams) {
-            projects.getAllProjects()
-                .then(function (success) {
-                    $scope.projects = success;
-                }, function (error) {
-                    console.log(error);
-                });
 
-            $scope.projectById = function() {
-                projects.getProjectById($routeParams.projectId)
+            if (!$routeParams.projectId) {
+                projects.getAllProjects()
                     .then(function (success) {
-                        $scope.projectInfo = success;
+                        $scope.projects = success;
+                    }, function (error) {
+                        console.log(error);
+                    });
+            } else {
+                projects.getProjectById($routeParams.projectId)
+                    .then(function (projectInfo) {
+                        $scope.projectInfo = projectInfo;
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+                projects.getProjectIssues($routeParams.projectId)
+                    .then(function (issues) {
+                        $scope.issues = issues;
                     }, function (error) {
                         console.log(error);
                     });

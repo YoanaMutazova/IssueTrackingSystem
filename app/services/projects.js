@@ -45,9 +45,29 @@ angular.module('issueTracker.services.projects', [
                 return deferred.promise;
             }
 
+            function getProjectIssues(projectId) {
+                var deferred = $q.defer();
+
+                var token = $cookies.get('access_token');
+
+                $http({
+                    url: BASE_URL + 'projects/' + projectId + '/issues',
+                    method: 'GET',
+                    headers: {'Authorization': 'Bearer ' + token}
+                })
+                    .then(function (success) {
+                        deferred.resolve(success.data);
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+                return deferred.promise;
+            }
+
             return {
                 getAllProjects: getAllProjects,
-                getProjectById: getProjectById
+                getProjectById: getProjectById,
+                getProjectIssues: getProjectIssues
             }
         }
     ]);
