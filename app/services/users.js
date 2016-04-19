@@ -55,7 +55,7 @@ angular.module('issueTracker.services.users', ['ngCookies'])
                     data: changed
                 })
                     .then(function (success) {
-                        console.log(success.data);
+                        deferred.resolve(success);
                     }, function (error) {
                         console.log(error);
                     });

@@ -5,7 +5,7 @@ angular.module('issueTracker.controllers.users', [
         $routeProvider.when('/users', {
             templateUrl: 'app/views/users.html',
             controller: 'UsersController'
-        })
+        });
     }])
     .controller('UsersController', [
         '$scope',
