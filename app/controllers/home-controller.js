@@ -13,7 +13,8 @@ angular.module('issueTracker.controllers.home', [
         'authentication',
         '$cookies',
         '$location',
-        function ($scope, authentication, $cookies, $location) {
+        '$window',
+        function ($scope, authentication, $cookies, $location, $window) {
             var token = $cookies.get('access_token');
 
             if (!token) {
@@ -27,6 +28,7 @@ angular.module('issueTracker.controllers.home', [
                     .then(function (success) {
                         $cookies.put('access_token', success);
                         $scope.template = 'app/views/dashboard.html';
+                        $window.location.reload();
                         }, function (error) {
                             console.log('invalid username or password');
                     });
@@ -48,6 +50,7 @@ angular.module('issueTracker.controllers.home', [
                     .then(function (success) {
                         $cookies.remove('access_token');
                         $scope.template = 'app/views/user.html';
+                        $window.location.reload();
                     }, function (error) {
                         console.log(error);
                     });

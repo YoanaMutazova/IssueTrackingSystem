@@ -52,6 +52,7 @@
 
 .pull-left, .pull-right {
   margin: 2%;
+  width: 45%;
 }
 
 a, a:hover, a:visited {
