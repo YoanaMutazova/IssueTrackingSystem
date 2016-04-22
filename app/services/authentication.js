@@ -1,4 +1,4 @@
-angular.module('issueTracker.services.authentication', ['ngCookies'])
+angular.module('issueTracker.services.authentication', [])
     .factory('authentication', [
         '$http',
         '$q',
@@ -30,12 +30,18 @@ angular.module('issueTracker.services.authentication', ['ngCookies'])
                     data: userInfo
                 })
                 .then(function (success) {
+                    //$http.defaults.headers.common.Authorization = 'Bearer ' + success.data['access_token'];
+                    $cookies.put('access_token', success.data['access_token']);
                     deferred.resolve(success.data['access_token']);
                 }, function (error) {
                     deferred.reject(error);
                 });
 
                 return deferred.promise;
+            }
+
+            function isAuthenticated() {
+                return !!$cookies.get('access_token');
             }
 
             function logout() {
@@ -49,6 +55,8 @@ angular.module('issueTracker.services.authentication', ['ngCookies'])
                     headers: {'Authorization': 'Bearer ' + token}
                 })
                     .then(function (success) {
+                        $cookies.remove('access_token');
+                        //$http.defaults.headers.common.Authorization = undefined;
                         deferred.resolve(success);
                     }, function (error) {
                         console.log(error);
@@ -60,6 +68,7 @@ angular.module('issueTracker.services.authentication', ['ngCookies'])
             return {
                 register: register,
                 login: login,
+                isAuthenticated: isAuthenticated,
                 logout: logout
             }
     }]);

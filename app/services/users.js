@@ -1,4 +1,4 @@
-angular.module('issueTracker.services.users', ['ngCookies'])
+angular.module('issueTracker.services.users', [])
     .factory('users', [
         '$http',
         '$q',

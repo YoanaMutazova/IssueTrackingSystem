@@ -1,6 +1,6 @@
 angular.module('issueTracker.controllers.home', [
         'issueTracker.services.authentication',
-        'ngCookies'
+        'issueTracker.services.issues'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/', {
@@ -11,22 +11,27 @@ angular.module('issueTracker.controllers.home', [
     .controller('HomeController', [
         '$scope',
         'authentication',
+        'issues',
         '$cookies',
         '$location',
         '$window',
-        function ($scope, authentication, $cookies, $location, $window) {
-            var token = $cookies.get('access_token');
-
-            if (!token) {
+        function ($scope, authentication, issues, $cookies, $location, $window) {
+            if (!authentication.isAuthenticated()) {
                 $scope.template = 'app/views/user.html';
             } else {
                 $scope.template = 'app/views/dashboard.html';
+
+                issues.myIssues(5, 1, 'DueDate desc')
+                    .then(function (issues) {
+                        $scope.issues = issues;
+                    }, function (error) {
+                        console.log(error)
+                    });
             }
 
             $scope.login = function (user) {
                 authentication.login(user)
                     .then(function (success) {
-                        $cookies.put('access_token', success);
                         $scope.template = 'app/views/dashboard.html';
                         $window.location.reload();
                         }, function (error) {
@@ -38,21 +43,16 @@ angular.module('issueTracker.controllers.home', [
                 authentication.register(user);
                 authentication.login(user)
                     .then(function (success) {
-                        $cookies.put('access_token', success);
                         $scope.template = 'app/views/dashboard.html';
-                    }, function (error) {
-                        console.log(error);
+                        $window.location.reload();
                     });
             };
 
             $scope.logout = function() {
                 authentication.logout()
                     .then(function (success) {
-                        $cookies.remove('access_token');
                         $scope.template = 'app/views/user.html';
                         $window.location.reload();
-                    }, function (error) {
-                        console.log(error);
                     });
             };
         }]);

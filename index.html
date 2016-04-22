@@ -21,7 +21,7 @@
   <![endif]-->
 
   <div ng-if="isAuthenticated">
-    <button class="btn btn-success"><a href="#/dashboard">Dashboard</a></button>
+    <button class="btn btn-success"><a href="#/">Dashboard</a></button>
     <button class="btn btn-success"><a href="#/projects">Projects</a></button>
   </div>
   <div ng-view></div>
@@ -40,6 +40,7 @@
   <script src="app/services/authentication.js"></script>
   <script src="app/controllers/projects-controller.js"></script>
   <script src="app/services/projects.js"></script>
+  <script src="app/services/issues.js"></script>
   <script src="app/controllers/users-controller.js"></script>
   <script src="app/services/users.js"></script>
   <script src="app/controllers/profile-controller.js"></script>
