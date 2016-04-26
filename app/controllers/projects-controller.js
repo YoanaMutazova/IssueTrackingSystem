@@ -3,14 +3,25 @@ angular.module('issueTracker.controllers.projects', [
         'issueTracker.services.users'
     ])
     .config(['$routeProvider', function ($routeProvider) {
+        var routeChecks = {
+            authenticated: ['$q', 'authentication', function ($q, authentication) {
+                if (authentication.isAuthenticated()) {
+                    return q.when(true);
+                }
+
+                return $q.reject('not authorized');
+            }]
+        };
             $routeProvider.when('/projects', {
                 templateUrl: 'app/views/projects/projects.html',
-                controller: 'ProjectsController'
+                controller: 'ProjectsController',
+                resolve: routeChecks.authenticated
             });
 
             $routeProvider.when('/projects/:projectId', {
                 templateUrl: 'app/views/projects/project.html',
-                controller: 'ProjectsController'
+                controller: 'ProjectsController',
+                resolve: routeChecks.authenticated
             });
         }
     ])

@@ -12,9 +12,11 @@ angular.module('issueTracker', [
     .config(['$routeProvider', function($routeProvider) {
       $routeProvider.otherwise({redirectTo: '/'});
     }])
-    .run(['$location', 'authentication', function ($location, authentication) {
-        if (!authentication.isAuthenticated()) {
-            $location.path('/');
-        }
+    .run(['$rootScope', '$location', function ($rootScope, $location) {
+        $rootScope.$on('$routeChangeError', function (ev, current, privious, rejection) {
+            if (rejection === 'not authorized') {
+                $location.path('/');
+            }
+        })
     }])
     .constant('BASE_URL', 'http://softuni-issue-tracker.azurewebsites.net/');
