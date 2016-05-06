@@ -4,7 +4,7 @@ angular.module('issueTracker.services.users', [])
         '$q',
         '$cookies',
         'BASE_URL',
-        function ($http, $q,$cookies, BASE_URL) {
+        function ($http, $q, $cookies, BASE_URL) {
             function allUsers() {
                 var deferred = $q.defer();
 
@@ -17,8 +17,6 @@ angular.module('issueTracker.services.users', [])
                 })
                     .then(function (success) {
                         deferred.resolve(success.data);
-                    }, function (error) {
-                        console.log(error);
                     });
 
                 return deferred.promise;
@@ -36,8 +34,6 @@ angular.module('issueTracker.services.users', [])
                 })
                     .then(function (success) {
                         deferred.resolve(success.data);
-                    }, function (error) {
-                        console.log(error);
                     });
 
                 return deferred.promise;
@@ -56,8 +52,6 @@ angular.module('issueTracker.services.users', [])
                 })
                     .then(function (success) {
                         deferred.resolve(success);
-                    }, function (error) {
-                        console.log(error);
                     });
 
                 return deferred.promise;

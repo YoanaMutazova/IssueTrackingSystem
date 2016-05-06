@@ -5,7 +5,7 @@ angular.module('issueTracker.controllers.users', [
         var routeChecks = {
             authenticated: ['$q', 'authentication', function ($q, authentication) {
                 if (authentication.isAuthenticated()) {
-                    return q.when(true);
+                    return $q.when(true);
                 }
 
                 return $q.reject('not authorized');
@@ -24,29 +24,16 @@ angular.module('issueTracker.controllers.users', [
         function ($scope, users) {
             $scope.getAllUsers = function () {
                 users.allUsers()
-                    .then(function (success) {
-                        $scope.allUsers = success;
-                    }, function (error) {
-                        console.log(error);
+                    .then(function (users) {
+                        $scope.allUsers = users;
                     });
             };
 
             $scope.getCurrentUser = function () {
                 users.loggedUser()
-                    .then(function (success) {
-                        $scope.loggedUser = success;
-                    }, function (error) {
-                        console.log(error);
+                    .then(function (user) {
+                        $scope.loggedUser = user;
                     });
             };
-
-            $scope.changePassword = function (changed) {
-                users.changePassword(changed)
-                    .then(function (success) {
-                        console.log(success);
-                    }, function (error) {
-                        console.log(error);
-                    });
-            }
         }
     ]);

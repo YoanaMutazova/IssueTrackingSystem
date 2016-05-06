@@ -50,14 +50,37 @@
   font-size: 14pt;
 }
 
-.pull-left, .pull-right {
-  margin: 2%;
-  width: 45%;
-}
-
 a, a:hover, a:visited {
   text-decoration: none;
   color: #ffffff;
   font-size: 14pt;
 }
 
+td>a, td>a:visited {
+  color: #0b97c4;
+}
+
+td>a:hover {
+  color: #5bc0de;
+}
+
+.united {
+  display: inline-flex;
+  width: 100%;
+}
+
+.left {
+  display: block;
+  width: 38%;
+  margin-right: 50px;
+}
+
+.right {
+  display: block;
+  width: 63%;
+}
+
+.well {
+  background-color: transparent;
+  border: none;
+}

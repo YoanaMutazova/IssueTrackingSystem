@@ -1,0 +1,45 @@
+<button class="btn btn-success"><a href="#/">Dashboard</a></button>
+<button class="btn btn-success"><a href="#/projects">Projects</a></button>
+
+<p class="bg-info">Issue Page</p>
+
+<div class="well united">
+    <div class="well left">
+        <p><h3><strong>{{issueInfo.IssueKey}}</strong></h3></p>
+
+        <div ng-include="template"></div>
+
+        <p>Author: {{issueInfo.Author.Username}}</p>
+        <p>Project: {{issueInfo.Project.Name}}</p>
+        <p>Status: {{issueInfo.Status.Name}}</p>
+
+        <div>Labels: </div>
+        <ul>
+            <div ng-repeat="label in issueInfo.Labels">
+                <li>{{label.Name}}</li>
+            </div>
+        </ul>
+        <div ng-if="canChangeStatus">
+            <button class="btn btn-success" ng-click="editIssue(issueInfo)">Edit</button>
+        </div>
+    </div>
+    <div class="well right">
+        Available statuses:
+        <p ng-if="canChangeStatus">
+        <div ng-repeat="status in issueInfo.AvailableStatuses">{{status.Name}}      {{status.Id}}
+            <button class="btn btn-success" ng-click="changeStatus(status.Id)">Change</button>
+        </div>
+        </p>
+    </div>
+</div>
+
+<div ng-repeat="comment in comments">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{comment.Author.Username}} - {{comment.CreatedOn}}</h3>
+    </div>
+    <div class="panel-body">
+        {{comment.Text}}
+    </div>
+</div>
+</div>

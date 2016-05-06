@@ -30,7 +30,6 @@ angular.module('issueTracker.services.authentication', [])
                     data: userInfo
                 })
                 .then(function (success) {
-                    //$http.defaults.headers.common.Authorization = 'Bearer ' + success.data['access_token'];
                     $cookies.put('access_token', success.data['access_token']);
                     deferred.resolve(success.data['access_token']);
                 }, function (error) {
@@ -56,7 +55,6 @@ angular.module('issueTracker.services.authentication', [])
                 })
                     .then(function (success) {
                         $cookies.remove('access_token');
-                        //$http.defaults.headers.common.Authorization = undefined;
                         deferred.resolve(success);
                     }, function (error) {
                         console.log(error);

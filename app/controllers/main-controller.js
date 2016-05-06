@@ -3,6 +3,7 @@ angular.module('issueTracker.controllers.main', [])
         '$scope',
         '$cookies',
         function ($scope, $cookies) {
-            $scope.isAuthenticated = $cookies.get('access_token');
+           var isAuthenticated = $cookies.get('access_token');
+
         }
     ]);

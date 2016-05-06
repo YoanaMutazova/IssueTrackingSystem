@@ -1,28 +1,31 @@
 <button class="btn btn-success" ng-click="editProject(project)">Edit</button>
-<button class="btn btn-success"><a href="">Add Issue</a></button>
+<button class="btn btn-success"><a href="/#/projects/{{id}}/add-issue">Add Issue</a></button>
 
 <div>Project key: {{projectInfo.ProjectKey}}</div>
 <div>
     <strong>Name: </strong>
-    <input type="text" ng-model="project.name" placeholder="{{projectInfo.Name}}"/>
+    <input type="text" ng-model="project.name" placeholder="{{projectInfo.Name}}" />
 </div>
 <div>
     <strong>Description: </strong>
-    <input type="text" ng-model="project.description"  placeholder="{{projectInfo.Description}}"/>
+    <input type="text" ng-model="project.description" placeholder="{{projectInfo.Description}}" />
 </div>
 
 <div>
-    <strong>LeadId: </strong>
-    (current id: {{projectInfo.Lead.Id}})
+    <strong>Leader: </strong>
     <input type="text" placeholder="{{projectInfo.Lead.Username}}"/>
 </div>
 
 <div>Labels: </div>
-<div ng-repeat="label in projectInfo.Labels">
-    <div>{{label.Name}}</div>
-</div>
+<ul>
+    <div ng-repeat="label in projectInfo.Labels">
+        <li>{{label.Name}}</li>
+    </div>
+</ul>
 
 <div>Priorities: </div>
-<div ng-repeat="priority in projectInfo.Priorities">
-    <div>{{priority.Name}}</div>
-</div>
+<ul>
+    <div ng-repeat="priority in projectInfo.Priorities">
+        <li>{{priority.Name}}</li>
+    </div>
+</ul>

@@ -5,7 +5,7 @@ angular.module('issueTracker.controllers.profile', [
         var routeChecks = {
             authenticated: ['$q', 'authentication', function ($q, authentication) {
                 if (authentication.isAuthenticated()) {
-                    return q.when(true);
+                    return $q.when(true);
                 }
 
                 return $q.reject('not authorized');
@@ -20,14 +20,14 @@ angular.module('issueTracker.controllers.profile', [
     }])
     .controller('ProfileController', [
         '$scope',
+        '$location',
         'users',
-        function ($scope, users) {
+        function ($scope, $location, users) {
             $scope.changePassword = function (changes) {
                 users.changePassword(changes)
-                    .then(function (success) {
-                        console.log('success');
-                    }, function (error) {
-                        console.log(error);
+                    .then(function () {
+                        toastr.success('Password successfully changed!');
+                        $location.path('/dashboard');
                     });
             }
         }

@@ -5,11 +5,15 @@
 <div><strong>LeadId: </strong>(current id: {{projectInfo.Lead.Id}}) {{projectInfo.Lead.Username}}</div>
 
 <div>Labels: </div>
-<div ng-repeat="label in projectInfo.Labels">
-    <div>{{label.Name}}</div>
-</div>
+<ul>
+    <div ng-repeat="label in projectInfo.Labels">
+        <li>{{label.Name}}</li>
+    </div>
+</ul>
 
 <div>Priorities: </div>
-<div ng-repeat="priority in projectInfo.Priorities">
-    <div>{{priority.Name}}</div>
-</div>
+<ul>
+    <div ng-repeat="priority in projectInfo.Priorities">
+        <li>{{priority.Name}}</li>
+    </div>
+</ul>

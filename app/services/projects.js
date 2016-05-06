@@ -15,10 +15,8 @@ angular.module('issueTracker.services.projects', [])
                     method: 'GET',
                     headers: {'Authorization': 'Bearer ' + token}
                 })
-                    .then(function (success) {
-                        deferred.resolve(success.data);
-                    }, function (error) {
-                        console.log(error);
+                    .then(function (projects) {
+                        deferred.resolve(projects.data);
                     });
 
                 return deferred.promise;
@@ -34,29 +32,26 @@ angular.module('issueTracker.services.projects', [])
                     method: 'GET',
                     headers: {'Authorization': 'Bearer ' + token}
                 })
-                    .then(function (success) {
-                        deferred.resolve(success.data);
-                    }, function (error) {
-                        console.log(error);
+                    .then(function (project) {
+                        deferred.resolve(project.data);
                     });
 
                 return deferred.promise;
             }
 
-            function getProjectIssues(projectId) {
+            function myProjects(pageSize, pageNumber, userId) {
                 var deferred = $q.defer();
-
                 var token = $cookies.get('access_token');
 
+                var urlFormatted = 'projects/?pageSize=' + pageSize + '&pageNumber=' + pageNumber + '&filter=Lead.Id=' + '"' + userId + '"';
+
                 $http({
-                    url: BASE_URL + 'projects/' + projectId + '/issues',
                     method: 'GET',
-                    headers: {'Authorization': 'Bearer ' + token}
+                    url: BASE_URL + urlFormatted,
+                    headers: {Authorization: 'Bearer ' + token}
                 })
-                    .then(function (success) {
-                        deferred.resolve(success.data);
-                    }, function (error) {
-                        console.log(error);
+                    .then(function (issues) {
+                        deferred.resolve(issues.data);
                     });
 
                 return deferred.promise;
@@ -80,9 +75,7 @@ angular.module('issueTracker.services.projects', [])
                     data: data
                 })
                     .then(function (success) {
-                        console.log(success.data);
-                    }, function (error) {
-                        console.log(error);
+                        deferred.resolve(success.data);
                     });
 
                 return deferred.promise;
@@ -91,8 +84,8 @@ angular.module('issueTracker.services.projects', [])
             return {
                 getAllProjects: getAllProjects,
                 getProjectById: getProjectById,
-                getProjectIssues: getProjectIssues,
-                editProject: editProject
+                editProject: editProject,
+                myProjects: myProjects
             }
         }
     ]);

@@ -1,0 +1,21 @@
+<p>
+    <strong>Title </strong>
+    <input type="text" ng-model="issueInfo.Title" />
+</p>
+<p>
+    <strong>Description </strong>
+    <input type="text" ng-model="issueInfo.Description" />
+</p>
+<p>
+    <strong>AssigneeId </strong>
+    (current id: {{currentUser}})
+    <input type="text" ng-model="issueInfo.Assignee.Username" />
+</p>
+<p>
+    <strong>PriorityId </strong>(current id: {{issueInfo.Priority.Id}})
+    <input type="text" ng-model="issueInfo.Priority.Name" />
+</p>
+<p>
+    <strong>DueDate </strong>
+    <input type="text" ng-model="issueInfo.DueDate" />
+</p>
