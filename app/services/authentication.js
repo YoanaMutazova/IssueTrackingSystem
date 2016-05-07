@@ -9,8 +9,8 @@ angular.module('issueTracker.services.authentication', [])
                 var deferred = $q.defer();
 
                 $http.post(BASE_URL + 'api/Account/Register', user)
-                    .then(function (success) {
-                        deferred.resolve(success.data);
+                    .then(function (user) {
+                        deferred.resolve(user.data);
                     });
 
                 return deferred.promise;
@@ -27,9 +27,9 @@ angular.module('issueTracker.services.authentication', [])
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     data: userInfo
                 })
-                .then(function (success) {
-                    $cookies.put('access_token', success.data['access_token']);
-                    deferred.resolve(success.data['access_token']);
+                .then(function (user) {
+                    $cookies.put('access_token', user.data['access_token']);
+                    deferred.resolve(user.data['access_token']);
                 });
 
                 return deferred.promise;

@@ -49,11 +49,8 @@ angular.module('issueTracker.services.issues', [])
                     headers: {Authorization: 'Bearer ' + token},
                     data: issue
                 })
-                    .then(function (success) {
-                        console.log(success);
-                        deferred.resolve(success);
-                    }, function (error) {
-                        console.log(error);
+                    .then(function (issue) {
+                        deferred.resolve(issue);
                     });
 
                 return deferred.promise;

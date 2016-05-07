@@ -15,8 +15,8 @@ angular.module('issueTracker.services.users', [])
                     method: 'GET',
                     headers: {'Authorization': 'Bearer ' + token}
                 })
-                    .then(function (success) {
-                        deferred.resolve(success.data);
+                    .then(function (users) {
+                        deferred.resolve(users.data);
                     });
 
                 return deferred.promise;
