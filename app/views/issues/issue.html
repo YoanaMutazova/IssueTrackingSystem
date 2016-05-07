@@ -1,14 +1,13 @@
-<button class="btn btn-success"><a href="#/">Dashboard</a></button>
-<button class="btn btn-success"><a href="#/projects">Projects</a></button>
-
 <p class="bg-info">Issue Page</p>
 
 <div class="well united">
     <div class="well left">
         <p><h3><strong>{{issueInfo.IssueKey}}</strong></h3></p>
-
-        <div ng-include="template"></div>
-
+        <p><strong>Title </strong> {{issueInfo.Title}}</p>
+        <p><strong>Description </strong>{{issueInfo.Description}}</p>
+        <p><strong>AssigneeId </strong>(current id: {{currentUser}}) {{issueInfo.Assignee.Username}}</p>
+        <p><strong>PriorityId </strong>(current id: {{issueInfo.Priority.Id}}) {{issueInfo.Priority.Name}}</p>
+        <p><strong>DueDate </strong>{{issueInfo.DueDate}}</p>
         <p>Author: {{issueInfo.Author.Username}}</p>
         <p>Project: {{issueInfo.Project.Name}}</p>
         <p>Status: {{issueInfo.Status.Name}}</p>
@@ -20,19 +19,16 @@
             </div>
         </ul>
         <div ng-if="canChangeStatus">
-            <button class="btn btn-success" ng-click="editIssue(issueInfo)">Edit</button>
+            <button class="btn btn-success"><a href="#/issues/{{issueInfo.Id}}/edit">Edit issue</a></button>
         </div>
     </div>
     <div class="well right">
         Available statuses:
         <p ng-if="canChangeStatus">
-        <div ng-repeat="status in issueInfo.AvailableStatuses">{{status.Name}}      {{status.Id}}
-            <button class="btn btn-success" ng-click="changeStatus(status.Id)">Change</button>
-        </div>
+        <div ng-repeat="status in issueInfo.AvailableStatuses">{{status.Name}}</div>
         </p>
     </div>
 </div>
-
 <div ng-repeat="comment in comments">
 <div class="panel panel-primary">
     <div class="panel-heading">

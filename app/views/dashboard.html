@@ -1,7 +1,111 @@
-<button class="btn btn-success"><a href="#/">Dashboard</a></button>
-<button class="btn btn-success"><a href="#/projects">Projects</a></button>
+<div class="well united">
+    <div class="well left">
+        <h1>Dashboard</h1>
+        <div ng-if="isAdmin"><h1>Affiliated Projects</h1></div>
 
-<h1>Dashboard</h1>
-<h1>Affiliated Projects</h1>
-<button class="btn btn-success" ng-click="logout()">Logout</button>
-<button class="btn btn-success"><a href="#/profile/password">Change password</a></button>
+        <div ng-repeat="project in projects">
+            <p><a class="project" href="#/projects/{{project.Id}}">{{project.Name}}</a></p>
+        </div>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item disabled" ng-if="ProjectsCurrent == 1">
+                    <a class="page-link" href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                <li class="page-item" ng-if="ProjectsCurrent != 1">
+                    <a class="page-link" href="" aria-label="Previous" ng-click="changeProjectsPage(ProjectsCurrent - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                <div ng-repeat="page in projectsPages">
+                    <li class="page-item active" ng-if="page == ProjectsCurrent">
+                        <a class="page-link" href="" >{{page}}</a>
+                    </li>
+
+                    <li class="page-item" ng-if="page != ProjectsCurrent"  >
+                        <a class="page-link" href="" ng-click="changeProjectsPage(page)" >{{page}}</a>
+                    </li>
+                </div>
+
+                <li class="page-item" ng-if="ProjectsCurrent != ProjectsTotal">
+                    <a class="page-link" href="" aria-label="Next" ng-click="changeProjectsPage(ProjectsCurrent + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                <li class="page-item disabled" ng-if="ProjectsCurrent == ProjectsTotal">
+                    <a class="page-link" href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="well right">
+        <table class="table table-striped table-hover ">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Assignee</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="issue in issues">
+                <td><a href="/#/issues/{{issue.Id}}">{{issue.Title}}</a></td>
+                <td>{{issue.Description}}</td>
+                <td>{{issue.DueDate}}</td>
+                <td>{{issue.Author.Username}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination" >
+                <li class="page-item disabled" ng-if="IssuesCurrent == 1">
+                    <a class="page-link" href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                <li class="page-item" ng-if="IssuesCurrent != 1">
+                    <a class="page-link" href="" aria-label="Previous" ng-click="changeIssuesPage(IssuesCurrent - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                <div ng-repeat="page in issuesPages">
+                    <li class="page-item active" ng-if="page == IssuesCurrent">
+                        <a class="page-link" href="" >{{page}}</a>
+                    </li>
+
+                    <li class="page-item" ng-if="page != IssuesCurrent"  >
+                        <a class="page-link" href="" ng-click="changeIssuesPage(page)" >{{page}}</a>
+                    </li>
+                </div>
+
+                <li class="page-item" ng-if="IssuesCurrent != IssuesTotal">
+                    <a class="page-link" href="" aria-label="Next" ng-click="changeIssuesPage(IssuesCurrent + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                <li class="page-item disabled" ng-if="IssuesCurrent == IssuesTotal">
+                    <a class="page-link" href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

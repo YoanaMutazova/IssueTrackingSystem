@@ -1,7 +1,7 @@
 angular.module('issueTracker.controllers.issues', [
         'issueTracker.services.projects',
         'issueTracker.services.users',
-        'issueTracker.services.users'
+        'issueTracker.services.issues'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         var routeChecks = {
@@ -14,15 +14,21 @@ angular.module('issueTracker.controllers.issues', [
             }]
         };
 
-        $routeProvider.when('/projects/:projectId/add-issue', {
-            templateUrl: 'app/views/issues/add-issue.html',
-            controller: 'IssuesController',
-            resolve: routeChecks.authenticated
-        });
-
         $routeProvider.when('/issues/:issueId', {
             templateUrl: 'app/views/issues/issue.html',
             controller: 'IssueController',
+            resolve: routeChecks.authenticated
+        });
+
+        $routeProvider.when('/issues/:issueId/edit', {
+            templateUrl: 'app/views/issues/issue-edit.html',
+            controller: 'IssueController',
+            resolve: routeChecks.authenticated
+        });
+
+        $routeProvider.when('/projects/:projectId/add-issue', {
+            templateUrl: 'app/views/issues/add-issue.html',
+            controller: 'IssuesController',
             resolve: routeChecks.authenticated
         });
     }
@@ -31,36 +37,45 @@ angular.module('issueTracker.controllers.issues', [
         '$scope',
         'projects',
         'users',
+        'issues',
+        'toastr',
+        '$location',
         '$routeParams',
-        function ($scope, projects, users, $routeParams) {
+        function ($scope, projects, users, issues, toastr, $location, $routeParams) {
             var projectId = $routeParams.projectId;
 
-            users.loggedUser();
+            $scope.labels = [];
+
             users.allUsers()
                 .then(function (users) {
-                    $scope.allUsers = users;
-                });
-
-            projects.getAllProjects()
-                .then(function (projects) {
-                   $scope.allProjects =  projects;
+                    $scope.users = users;
                 });
 
             projects.getProjectById(projectId)
                 .then(function (project) {
+                    $scope.projectName = project.Name;
                     $scope.labels = project.Labels;
                     $scope.priorities = project.Priorities;
                 });
 
             $scope.createIssue = function (issueInfo) {
-                console.log(issueInfo.title);
-                console.log(issueInfo.label);
-                //issues.createIssue(issueInfo)
-                //    .then(function (s) {
-                //        console.log(s);
-                //    }, function (e) {
-                //        console.log(e);
-                //    });
+                if(issueInfo.labels == undefined) {
+                    issueInfo.labels = [];
+                }else{
+                    var labels = issueInfo.labels.split(', ');
+                    for (var i = 0; i < labels.length; i++) {
+                        labels[i] = {Name: labels[i]};
+                    }
+                    issueInfo.labels = labels;
+                }
+
+                issueInfo.ProjectId = projectId;
+
+                issues.createIssue(issueInfo)
+                    .then(function () {
+                        toastr.success('Issue created.');
+                        $location.path('/projects/' + projectId);
+                    });
             };
         }
     ])
@@ -70,12 +85,12 @@ angular.module('issueTracker.controllers.issues', [
         'users',
         'projects',
         'toastr',
+        '$window',
+        '$location',
         '$routeParams',
-        function ($scope, issues, users, projects, toastr, $routeParams) {
+        function ($scope, issues, users, projects, toastr, $window, $location, $routeParams) {
             var issueId = $routeParams.issueId,
                 issueAssignee,
-                currentUser,
-                isAdmin,
                 projectId,
                 projectLeader;
 
@@ -88,8 +103,9 @@ angular.module('issueTracker.controllers.issues', [
                     users.loggedUser()
                         .then(function (user) {
                             $scope.currentUser = user.Id;
-                            currentUser = user.Username;
-                            isAdmin = user.isAdmin;
+                            if (user.Username === projectLeader || user.Username === issueAssignee || user.isAdmin) {
+                                $scope.canChangeStatus = true;
+                            }
                         });
 
                     projects.getProjectById(projectId)
@@ -97,15 +113,6 @@ angular.module('issueTracker.controllers.issues', [
                             projectLeader = project.Lead.Username;
                             $scope.leadId = project.Lead.Id;
                         });
-
-                    if (currentUser === projectLeader || currentUser === issueAssignee || isAdmin) {
-                        $scope.canChangeStatus = true;
-                        if (currentUser !== issueAssignee) {
-                            $scope.template = 'app/views/issues/issue-edit.html';
-                        }
-                    } else {
-                        $scope.template = 'app/views/issues/issue-info.html';
-                    }
                 });
 
             issues.issueComments(issueId)
@@ -124,7 +131,8 @@ angular.module('issueTracker.controllers.issues', [
 
                 issues.editIssue(issueId, data)
                     .then(function () {
-                       toastr.success('Issue edited.')
+                        toastr.success('Issue edited.');
+                        $location.path('/issues/' + issueId);
                     });
             };
 
@@ -132,6 +140,9 @@ angular.module('issueTracker.controllers.issues', [
                 issues.changeIssueStatus(issueId, statusId)
                     .then(function () {
                         toastr.success('Status changed.');
+                        setTimeout(function(){
+                            $window.location.reload();
+                        }, 800);
                     });
             };
         }

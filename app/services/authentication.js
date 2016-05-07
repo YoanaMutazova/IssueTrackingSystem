@@ -11,8 +11,6 @@ angular.module('issueTracker.services.authentication', [])
                 $http.post(BASE_URL + 'api/Account/Register', user)
                     .then(function (success) {
                         deferred.resolve(success.data);
-                    }, function (error) {
-                        console.log(error);
                     });
 
                 return deferred.promise;
@@ -32,8 +30,6 @@ angular.module('issueTracker.services.authentication', [])
                 .then(function (success) {
                     $cookies.put('access_token', success.data['access_token']);
                     deferred.resolve(success.data['access_token']);
-                }, function (error) {
-                    deferred.reject(error);
                 });
 
                 return deferred.promise;
@@ -56,8 +52,6 @@ angular.module('issueTracker.services.authentication', [])
                     .then(function (success) {
                         $cookies.remove('access_token');
                         deferred.resolve(success);
-                    }, function (error) {
-                        console.log(error);
                     });
 
                 return deferred.promise;

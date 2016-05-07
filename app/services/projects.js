@@ -57,25 +57,21 @@ angular.module('issueTracker.services.projects', [])
                 return deferred.promise;
             }
 
-            function editProject(projectId, leadId, projectInfo) {
+            function editProject(projectId, projectInfo) {
                 var deferred = $q.defer();
 
                 var token = $cookies.get('access_token');
-
-                var data = {
-                    Name: projectInfo.name,
-                    Description: projectInfo.description,
-                    LeadId: leadId
-                };
 
                 $http({
                     url: BASE_URL + 'projects/' + projectId,
                     method: 'PUT',
                     headers: {'Authorization': 'Bearer ' + token},
-                    data: data
+                    data: projectInfo
                 })
                     .then(function (success) {
                         deferred.resolve(success.data);
+                    }, function (e) {
+                        console.log(e);
                     });
 
                 return deferred.promise;

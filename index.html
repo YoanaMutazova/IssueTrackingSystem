@@ -21,6 +21,24 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+  <div ng-if="authenticated">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="nav navbar-nav">
+            <button class="btn btn-success" style="margin-right: 5px;"><a href="#/">Dashboard</a></button>
+            <button class="btn btn-success" ng-if="admin"><a href="#/projects">Projects</a></button>
+          </div>
+
+          <ul class="nav navbar-nav navbar-right">
+            <button class="btn btn-success"><a href="#/profile/password">Change password</a></button>
+            <button class="btn btn-success" ng-controller="HomeController" ng-click="logout()"><a href="#">Logout</a></button>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
   <div ng-view></div>
 
   <!-- In production use:
@@ -40,7 +58,6 @@
   <script src="app/services/projects.js"></script>
   <script src="app/controllers/issues-controller.js"></script>
   <script src="app/services/issues.js"></script>
-  <script src="app/controllers/users-controller.js"></script>
   <script src="app/services/users.js"></script>
   <script src="app/controllers/profile-controller.js"></script>
 </body>

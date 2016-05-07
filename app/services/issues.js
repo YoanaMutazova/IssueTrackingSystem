@@ -9,32 +9,15 @@ angular.module('issueTracker.services.issues', [])
                 var deferred = $q.defer();
                 var token = $cookies.get('access_token');
 
+                var urlFormatted = 'issues/me?pageSize=' + pageSize + '&pageNumber=' + pageNumber + '&orderBy=' + orderBy;
+
                 $http({
                     method: 'GET',
-                    url: BASE_URL + 'issues/me?pageSize=' + pageSize + '&pageNumber=' + pageNumber + '&orderBy=' + orderBy,
-                    headers: {'Authorization': 'Bearer ' + token},
+                    url: BASE_URL + urlFormatted,
+                    headers: {Authorization: 'Bearer ' + token}
                 })
                     .then(function (myIssues) {
-                        deferred.resolve(myIssues);
-                    });
-
-                return deferred.promise;
-            }
-
-            function createIssue (issueInfo) {
-                var deferred = $q.defer();
-                var token = $cookies.get('access_token');
-
-                $http({
-                    method: 'POST',
-                    url: BASE_URL + 'issues',
-                    headers: {'Authorization': 'Bearer ' + token},
-                    data: issueInfo
-                })
-                    .then(function (issue) {
-                        deferred.resolve(issue);
-                    }, function (error) {
-                        console.log(error);
+                        deferred.resolve(myIssues.data);
                     });
 
                 return deferred.promise;
@@ -51,6 +34,26 @@ angular.module('issueTracker.services.issues', [])
                 })
                     .then(function (issueInfo) {
                         deferred.resolve(issueInfo.data);
+                    });
+
+                return deferred.promise;
+            }
+
+            function createIssue(issue) {
+                var deferred = $q.defer();
+                var token = $cookies.get('access_token');
+
+                $http({
+                    method: 'POST',
+                    url: BASE_URL + 'issues',
+                    headers: {Authorization: 'Bearer ' + token},
+                    data: issue
+                })
+                    .then(function (success) {
+                        console.log(success);
+                        deferred.resolve(success);
+                    }, function (error) {
+                        console.log(error);
                     });
 
                 return deferred.promise;
@@ -125,8 +128,8 @@ angular.module('issueTracker.services.issues', [])
 
             return {
                 myIssues: myIssues,
-                createIssue: createIssue,
                 issueInfo: issueInfo,
+                createIssue: createIssue,
                 editIssue: editIssue,
                 changeIssueStatus: changeIssueStatus,
                 getProjectIssues: getProjectIssues,

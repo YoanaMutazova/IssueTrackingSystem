@@ -32,8 +32,8 @@ angular.module('issueTracker.services.users', [])
                     method: 'GET',
                     headers: {'Authorization': 'Bearer ' + token}
                 })
-                    .then(function (success) {
-                        deferred.resolve(success.data);
+                    .then(function (user) {
+                        deferred.resolve(user.data);
                     });
 
                 return deferred.promise;
@@ -60,6 +60,6 @@ angular.module('issueTracker.services.users', [])
             return {
                 allUsers: allUsers,
                 loggedUser: loggedUser,
-                changePassword: changePassword
+                changePassword: changePassword,
             }
     }]);

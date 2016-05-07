@@ -7,7 +7,6 @@ angular.module('issueTracker', [
     'issueTracker.controllers.home',
     'issueTracker.controllers.projects',
     'issueTracker.controllers.issues',
-    'issueTracker.controllers.users',
     'issueTracker.controllers.profile'
 ])
     .config(['$routeProvider', '$httpProvider' , function($routeProvider, $httpProvider) {
@@ -18,8 +17,8 @@ angular.module('issueTracker', [
                 'responseError': function (rejection) {
                     if (rejection.data && rejection.data['error_description']) {
                         toastr.error(rejection.data['error_description']);
-                    } else if (rejection.data && rejection.data.modelState && rejection.data.modelState['']) {
-                        var errors = rejection.data.modelState[''];
+                    } else if (rejection.data && rejection.data.ModelState && rejection.data.ModelState[""]) {
+                        var errors = rejection.data.ModelState[""];
                         if (errors.length > 0) {
                             toastr.error(errors[0]);
                         }

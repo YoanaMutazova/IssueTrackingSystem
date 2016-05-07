@@ -20,7 +20,13 @@ angular.module('issueTracker.controllers.projects', [
             });
 
             $routeProvider.when('/projects/:projectId', {
-                templateUrl: 'app/views/projects/project.html',
+                templateUrl: 'app/views/projects/project-info.html',
+                controller: 'ProjectController',
+                resolve: routeChecks.authenticated
+            });
+
+            $routeProvider.when('/projects/:projectId/edit', {
+                templateUrl: 'app/views/projects/edit-project.html',
                 controller: 'ProjectController',
                 resolve: routeChecks.authenticated
             });
@@ -42,25 +48,30 @@ angular.module('issueTracker.controllers.projects', [
         'projects',
         'users',
         'issues',
+        'toastr',
         '$routeParams',
-        function ($scope, projects, users, issues, $routeParams) {
+        '$location',
+        function ($scope, projects, users, issues, toastr, $routeParams, $location) {
             projects.getProjectById($routeParams.projectId)
                 .then(function (projectInfo) {
                     $scope.projectInfo = projectInfo;
                     $scope.id = $routeParams.projectId;
 
                     users.loggedUser()
-                        .then(function (userInfo) {
-                            var id = userInfo.Id;
-                            if (id === $scope.projectInfo.Lead.Id || userInfo.isAdmin === true) {
-                                $scope.leader = true;
-                                $scope.template = 'app/views/projects/edit-project.html';
-                            } else {
-                                $scope.template = 'app/views/projects/project-info.html';
+                        .then(function (user) {
+                            if (user.Username === projectInfo.Lead.Username) {
+                                $scope.canEdit = true;
+                                $scope.editProject = function (project) {
+                                    project.LeadId = project.Lead.Id;
+                                    projects.editProject($routeParams.projectId, project)
+                                        .then(function () {
+                                            toastr.success('Project edited.');
+                                            $location.path('/projects/' + project.Id);
+                                        });
+                                };
                             }
                         });
                 });
-
 
             getProjectIssues(8, 1, $routeParams.projectId);
 

@@ -1,21 +1,50 @@
-<p>
-    <strong>Title </strong>
-    <input type="text" ng-model="issueInfo.Title" />
-</p>
-<p>
-    <strong>Description </strong>
-    <input type="text" ng-model="issueInfo.Description" />
-</p>
-<p>
-    <strong>AssigneeId </strong>
-    (current id: {{currentUser}})
-    <input type="text" ng-model="issueInfo.Assignee.Username" />
-</p>
-<p>
-    <strong>PriorityId </strong>(current id: {{issueInfo.Priority.Id}})
-    <input type="text" ng-model="issueInfo.Priority.Name" />
-</p>
-<p>
-    <strong>DueDate </strong>
-    <input type="text" ng-model="issueInfo.DueDate" />
-</p>
+<div class="well united">
+    <div class="well left">
+        <p><h3><strong>{{issueInfo.IssueKey}}</strong></h3></p>
+        <p>
+            <strong>Title </strong>
+            <input type="text" ng-model="issueInfo.Title" />
+        </p>
+        <p>
+            <strong>Description </strong>
+            <input type="text" ng-model="issueInfo.Description" />
+        </p>
+        <p>
+            <strong>AssigneeId </strong>
+            (current id: {{currentUser}})
+            <input type="text" ng-model="issueInfo.Assignee.Username" />
+        </p>
+        <p>
+            <strong>PriorityId </strong>(current id: {{issueInfo.Priority.Id}})
+            <input type="text" ng-model="issueInfo.Priority.Name" />
+        </p>
+        <p>
+            <strong>DueDate </strong>
+            <input type="text" ng-model="issueInfo.DueDate" />
+        </p>
+        <p>Author: {{issueInfo.Author.Username}}</p>
+        <p>Project: {{issueInfo.Project.Name}}</p>
+        <p>Status: {{issueInfo.Status.Name}}</p>
+
+        <div>Labels: </div>
+        <ul>
+            <div ng-repeat="label in issueInfo.Labels">
+                <li>{{label.Name}}</li>
+            </div>
+        </ul>
+
+        <button class="btn btn-success" ng-click="editIssue(issueInfo)"><a href="#">Edit</a></button>
+        <button class="btn btn-success"><a href="#/issues/{{issueInfo.Id}}">Back to issue</a></button>
+    </div>
+
+    <div class="well right">
+        <div class="well right">
+            Available statuses:
+            <p ng-if="canChangeStatus">
+            <div ng-repeat="status in issueInfo.AvailableStatuses">{{status.Name}}
+                <button class="btn btn-success" ng-click="changeStatus(status.Id)">Change</button>
+            </div>
+            </p>
+        </div>
+    </div>
+</div>

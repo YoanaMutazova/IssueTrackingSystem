@@ -56,11 +56,11 @@ a, a:hover, a:visited {
   font-size: 14pt;
 }
 
-td>a, td>a:visited {
+td>a, td>a:visited, .project, .project:visited {
   color: #0b97c4;
 }
 
-td>a:hover {
+td>a:hover, .project:hover {
   color: #5bc0de;
 }
 
@@ -83,4 +83,10 @@ td>a:hover {
 .well {
   background-color: transparent;
   border: none;
+}
+
+.navbar {
+  background-color: transparent;
+  border: none;
+  margin: 5px;
 }

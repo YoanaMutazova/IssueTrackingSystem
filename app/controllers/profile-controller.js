@@ -27,7 +27,7 @@ angular.module('issueTracker.controllers.profile', [
                 users.changePassword(changes)
                     .then(function () {
                         toastr.success('Password successfully changed!');
-                        $location.path('/dashboard');
+                        $location.path('/');
                     });
             }
         }

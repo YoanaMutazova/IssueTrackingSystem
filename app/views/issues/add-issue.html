@@ -17,23 +17,21 @@
         <div class="form-group">
             <label for="project" class="col-lg-2 control-label">Project</label>
             <div class="col-lg-10">
-                <select id="project">
-                    <option ng-repeat="project in allProjects" value="{{project.Id}}">{{project.Name}}</option>
-                </select>
+                <input type="text" id="project" ng-model="issue.projectId" value="{{projectId}}" disabled />
             </div>
         </div>
         <div class="form-group">
             <label for="assignee" class="col-lg-2 control-label">Assignee</label>
             <div class="col-lg-10">
-                <select id="assignee">
-                        <option ng-repeat="user in allUsers" value="{{user.Id}}">{{user.Username}}</option>
+                <select id="assignee" ng-model="issue.assigneeId">
+                        <option ng-repeat="user in users" value="{{user.Id}}">{{user.Username}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="priority" class="col-lg-2 control-label">Priority</label>
             <div class="col-lg-10">
-                <select id="priority">
+                <select id="priority" ng-model="issue.priorityId">
                     <option ng-repeat="priority in priorities" value="{{priority.Id}}">{{priority.Name}}</option>
                 </select>
             </div>
@@ -41,11 +39,7 @@
         <div class="form-group">
             <label for="labels" class="col-lg-2 control-label">Labels</label>
             <div class="col-lg-10">
-                <select id="labels">
-                    <option ng-repeat="label in labels" value="{{label.Id}}">
-                        <div ng-model="issue.label">{{label.Name}}</div>
-                    </option>
-                </select>
+                <input type="text" id="labels" name="namesInput" ng-model="issue.labels" required>
             </div>
         </div>
         <div class="form-group">
@@ -56,7 +50,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <button type="submit" class="btn btn-success" ng-disabled="issueForm.$invalid" ng-click="createIssue(issue)">Add issue</button>
+                <button type="submit" class="btn btn-success" ng-click="createIssue(issue)">Add issue</button>
             </div>
         </div>
     </form>
